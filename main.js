@@ -1,32 +1,46 @@
-function tocaSom(seletorAudio) {
-  const elemento = document.querySelector(seletorAudio);
+// Selecionar todas as teclas com a classe 'tecla'
+const teclas = document.querySelectorAll(".tecla");
 
-  if (elemento != null && elemento.localName === "audio") {
-    elemento.play();
-  } else {
-    console.log("Elemento não encontrado ou seletor inval ");
+// Função para tocar o som correspondente à tecla
+function tocarSom(tecla) {
+  // Encontra o áudio correspondente à tecla com base no ID
+  const som = document.getElementById(`som_${tecla.classList[1]}`);
+  if (som) {
+    // Reproduzir o som se encontrado
+    som.currentTime = 0; // Reinicia o som para tocar do início
+    som.play();
   }
 }
 
-const listaDeTeclas = document.querySelectorAll(".tecla");
-
-for (let contador = 0; contador < listaDeTeclas.length; contador++) {
-  const tecla = listaDeTeclas[contador];
-  const instrumento = tecla.classList[1];
-
-  const idAudio = `#som_${instrumento}`; //templete string
-
-  tecla.onclick = function () {
-    tocaSom(idAudio);
-  };
-
-  tecla.onkeydown = function (evento) {
-    if (evento.code === "Space" || evento.code === "Enter") {
-      tecla.classList.add("ativa");
-    }
-  };
-
-  tecla.onkeyup = function () {
-    tecla.classList.remove("ativa");
-  };
+// Função para ativar a animação da tecla
+function ativarTecla(tecla) {
+  tecla.classList.add("ativa");
 }
+
+// Função para desativar a animação da tecla
+function desativarTecla(tecla) {
+  tecla.classList.remove("ativa");
+}
+
+// Adicionar eventos de clique e toque às teclas
+teclas.forEach((tecla) => {
+  tecla.addEventListener("click", () => {
+    // Tocar o som ao clicar na tecla
+    tocarSom(tecla);
+    // Ativar a animação ao clicar na tecla
+    ativarTecla(tecla);
+    // Desativar a animação após um breve atraso
+    setTimeout(() => desativarTecla(tecla), 200);
+  });
+
+  tecla.addEventListener("touchstart", (evento) => {
+    // Impedir o comportamento padrão de toque
+    evento.preventDefault();
+    // Tocar o som ao tocar na tecla
+    tocarSom(tecla);
+    // Ativar a animação ao tocar na tecla
+    ativarTecla(tecla);
+    // Desativar a animação após um breve atraso
+    setTimeout(() => desativarTecla(tecla), 200);
+  });
+});
