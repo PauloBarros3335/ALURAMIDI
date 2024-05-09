@@ -69,15 +69,18 @@ h1 {
 @media (max-width: 600px) {
   body {
     font-size: 1rem;
+    margin: 0;
   }
 
   .teclado {
-    grid-template-columns: 2fr;
+    width: auto;
+    grid-template-columns: 1fr 1fr;
   }
 
   .tecla {
     width: 80px;
     height: 80px;
     font-size: 1.25em;
+    margin: 5px 0;
   }
 }
